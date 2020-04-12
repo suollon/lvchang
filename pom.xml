@@ -45,6 +45,18 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- 用于生成swagger.json数据 -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<!-- 用于解析swagger.json数据，并在页面展示 -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.7.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
