@@ -1,8 +1,10 @@
 package com.suollon.lvchang.controller;
 
 import com.suollon.lvchang.domain.entity.User;
+import com.suollon.lvchang.domain.model.UserModel;
 import com.suollon.lvchang.domain.vo.UserAddVO;
 import com.suollon.lvchang.domain.vo.UserUpdateVO;
+import com.suollon.lvchang.nonbusiness.util.BeanCopierUtil;
 import com.suollon.lvchang.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,7 +50,7 @@ public class UserController {
 
     @GetMapping
     @ApiOperation("按用户ID查询用户信息")
-    public User get(@RequestParam("userId") @Validated @NotNull(message = "用户ID不能为空") @ApiParam("用户ID") Long userId) {
-        return userService.selectByPrimaryKey(userId);
+    public UserModel get(@RequestParam("userId") @Validated @NotNull(message = "用户ID不能为空") @ApiParam("用户ID") Long userId) {
+        return BeanCopierUtil.copyForClass(userService.selectByPrimaryKey(userId), UserModel.class);
     }
 }
