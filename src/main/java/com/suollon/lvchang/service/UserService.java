@@ -1,10 +1,12 @@
-package com.suollon.lvchang.dao;
+package com.suollon.lvchang.service;
 
 import com.suollon.lvchang.domain.entity.User;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface UserDAO {
+/**
+ * @author wangwl
+ * @date 2020/4/11 23:48
+ */
+public interface UserService {
 
     int deleteByPrimaryKey(Long userId);
 

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan
+@MapperScan(basePackages = "com.suollon.lvchang.dao")
 public class LvchangApplication {
 
 	public static void main(String[] args) {
