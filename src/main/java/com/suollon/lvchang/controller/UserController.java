@@ -4,6 +4,9 @@ import com.suollon.lvchang.domain.entity.User;
 import com.suollon.lvchang.domain.model.UserModel;
 import com.suollon.lvchang.domain.vo.UserAddVO;
 import com.suollon.lvchang.domain.vo.UserUpdateVO;
+import com.suollon.lvchang.nonbusiness.exceptionhandler.ErrorEnum;
+import com.suollon.lvchang.nonbusiness.exceptionhandler.RespModel;
+import com.suollon.lvchang.nonbusiness.exceptionhandler.StandardException;
 import com.suollon.lvchang.nonbusiness.util.BeanCopierUtil;
 import com.suollon.lvchang.service.UserService;
 import io.swagger.annotations.Api;
@@ -26,31 +29,38 @@ public class UserController {
 
     @PostMapping
     @ApiOperation("新增用户信息")
-    public int add(@RequestBody @Validated UserAddVO userAddVO) {
+    public RespModel add(@RequestBody @Validated UserAddVO userAddVO) {
         User user = User.build()
                 .userName(userAddVO.getUserName())
                 .address(userAddVO.getAddress())
                 .phone(userAddVO.getPhone())
                 .createTime(new Date())
                 .updateTime(new Date());
-        return userService.insertSelective(user);
+        userService.insertSelective(user);
+        return RespModel.success();
     }
 
     @PutMapping
     @ApiOperation("更新用户信息")
-    public int update(@RequestBody @Validated UserUpdateVO userUpdateVO) {
+    public RespModel update(@RequestBody @Validated UserUpdateVO userUpdateVO) {
+        if (userUpdateVO.getUserId() == 1) {
+            throw new StandardException(ErrorEnum.E4001000, "超级管理员的用户信息不允许修改");
+        }
+
         User user = User.build()
                 .userId(userUpdateVO.getUserId())
                 .userName(userUpdateVO.getUserName())
                 .address(userUpdateVO.getAddress())
                 .phone(userUpdateVO.getPhone())
                 .updateTime(new Date());
-        return userService.updateByPrimaryKeySelective(user);
+        userService.updateByPrimaryKeySelective(user);
+        return RespModel.success();
     }
 
     @GetMapping
     @ApiOperation("按用户ID查询用户信息")
-    public UserModel get(@RequestParam("userId") @Validated @NotNull(message = "用户ID不能为空") @ApiParam("用户ID") Long userId) {
-        return BeanCopierUtil.copyForClass(userService.selectByPrimaryKey(userId), UserModel.class);
+    public RespModel<UserModel> get(@RequestParam("userId") @Validated @NotNull(message = "用户ID不能为空") @ApiParam("用户ID") Long userId) {
+        UserModel userModel = BeanCopierUtil.copyForClass(userService.selectByPrimaryKey(userId), UserModel.class);
+        return RespModel.success(userModel);
     }
 }
