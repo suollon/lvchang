@@ -29,7 +29,7 @@ public class UserAddVO implements Serializable {
      * 手机号
      */
     @NotBlank(message = "手机号不能为空")
-    @ApiModelProperty("手机号")
+    @ApiModelProperty(value = "手机号", required = true)
     private String phone;
 
     private static final long serialVersionUID = 1L;
